@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 
 import * as movieService from "../services/fakeMovieService";
+import Like from "./common/like";
 
 class Movies extends Component {
   state = {
@@ -16,6 +17,14 @@ class Movies extends Component {
     this.setState({ movies: movies });
   };
 
+  handleToggle = (movie) => {
+    const movies = [...this.state.movies];
+    const index = movies.indexOf(movie);
+    movies[index] = { ...movies[index] };
+    movies[index].liked = !movies[index].liked;
+    this.setState({ movies });
+  };
+
   getMovies = () => {
     return this.state.movies.map((movie) => (
       <tr key={movie._id}>
@@ -23,6 +32,9 @@ class Movies extends Component {
         <td>{movie.genre.name}</td>
         <td>{movie.numberInStock}</td>
         <td>{movie.dailyRentalRate}</td>
+        <td>
+          <Like liked={movie.liked} onToggle={() => this.handleToggle(movie)} />
+        </td>
         <td>
           <button
             onClick={() => this.handleDelete(movie)}
@@ -36,7 +48,7 @@ class Movies extends Component {
     ));
   };
   getColumns = () => {
-    const columns = ["Title", "Genre", "Stock", "Rate", ""];
+    const columns = ["Title", "Genre", "Stock", "Rate", "-", ""];
     return columns.map((col) => (
       <th scope="col" key={col}>
         {col}

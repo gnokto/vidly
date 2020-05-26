@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import _ from "lodash";
 
 import { getMovies } from "../services/fakeMovieService";
 import { getGenres } from "../services/fakeGenreService";
@@ -13,11 +14,12 @@ class Movies extends Component {
     genres: [],
     currentPage: 1,
     pageSize: 4,
+    sortColumn: { path: "title", order: "asc" },
   };
 
   // TODO componentDidMount is getting deprecated - use hooks
   componentDidMount() {
-    const genres = [{ name: "All Genres", _id: "All Genres" }, ...getGenres()];
+    const genres = [{ name: "All Genres", _id: "" }, ...getGenres()];
     this.setState({ movies: getMovies(), genres });
   }
 
@@ -42,6 +44,17 @@ class Movies extends Component {
     this.setState({ selectedGenreItem: genreItem, currentPage: 1 });
   };
 
+  handleSort = (newPath) => {
+    const sortColumn = { ...this.state.sortColumn };
+    if (sortColumn.path === newPath)
+      sortColumn.order = sortColumn.order === "asc" ? "desc" : "asc";
+    else {
+      sortColumn.path = newPath;
+      sortColumn.order = "asc";
+    }
+    this.setState({ sortColumn });
+  };
+
   render() {
     const { length: movieCount } = this.state.movies;
     if (movieCount === 0) return <h3>There are no movies in the database.</h3>;
@@ -51,13 +64,15 @@ class Movies extends Component {
       pageSize,
       movies: allMovies,
       selectedGenreItem,
+      sortColumn,
     } = this.state;
 
     const filtered =
-      selectedGenreItem && selectedGenreItem._id !== "All Genres"
+      selectedGenreItem && selectedGenreItem._id
         ? allMovies.filter((movie) => movie.genre._id === selectedGenreItem._id)
         : allMovies;
-    const movies = paginate(filtered, currentPage, pageSize);
+    const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
+    const movies = paginate(sorted, currentPage, pageSize);
 
     return (
       <div className="row">
@@ -74,6 +89,7 @@ class Movies extends Component {
             movies={movies}
             onDelete={this.handleDelete}
             onLike={this.handleLikeToggle}
+            onSort={this.handleSort}
           />
           <Pagination
             currentPage={currentPage}

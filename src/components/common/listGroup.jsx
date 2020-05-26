@@ -9,7 +9,7 @@ const ListGroup = (props) => {
     selectedItem,
   } = props;
   return (
-    <ul className="list-group">
+    <ul className="list-group" style={{ cursor: "pointer" }}>
       {items.map((item) => (
         <li
           onClick={() => onItemSelect(item)}

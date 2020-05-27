@@ -1,9 +1,5 @@
 import React, { Component } from "react";
 
-//columns: array
-//sortColumn: obj
-//onSort: function
-
 class TableHeader extends Component {
   raiseSort = (newPath) => {
     const sortColumn = { ...this.props.sortColumn };
@@ -20,10 +16,10 @@ class TableHeader extends Component {
     const { sortColumn } = this.props;
     if (column.path !== sortColumn.path) return null;
     if (sortColumn.order === "asc") {
-      return <i class="fa fa-sort-asc" aria-hidden="true" />;
+      return <i className="fa fa-sort-asc" aria-hidden="true" />;
     }
 
-    return <i class="fa fa-sort-desc" aria-hidden="true" />;
+    return <i className="fa fa-sort-desc" aria-hidden="true" />;
   };
   render() {
     return (

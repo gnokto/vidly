@@ -1,35 +1,35 @@
-import React, { Component } from "react";
+import React from "react";
 
 import { NavLink, Link } from "react-router-dom";
 
-class NavBar extends Component {
-  render() {
-    return (
-      <nav className="navbar navbar-expand-lg navbar-light bg-light">
-        <Link to="/" className="navbar-brand">
-          Blockbuster
-        </Link>
-        <ul className="navbar-nav">
-          <li className="nav-item">
-            <NavLink to="/movies" className="nav-link">
-              Movies
-            </NavLink>
-          </li>
-          <li className="nav-item">
-            <NavLink to="/customers" className="nav-link">
-              Customers
-            </NavLink>
-          </li>
-          <li className="nav-item">
-            <NavLink to="/rentals" className="nav-link">
-              Rentals
-            </NavLink>
-          </li>
-        </ul>
-        {/* </div> */}
-      </nav>
-    );
-  }
-}
+const NavBar = () => {
+  return (
+    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+      <Link className="navbar-brand" to="/">
+        Blockbuster
+      </Link>
+      <button
+        className="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNavAltMarkup"
+        aria-controls="navbarNavAltMarkup"
+        aria-exopanded="false"
+        aria-label="Toggle navigation"
+      />
+      <div className="navbar-nav">
+        <NavLink className="nav-link nav-item" to="/movies">
+          Movies
+        </NavLink>
+        <NavLink className="nav-link nav-item" to="/customers">
+          Customers
+        </NavLink>
+        <NavLink className="nav-link nav-item" to="/rentals">
+          Rentals
+        </NavLink>
+      </div>
+    </nav>
+  );
+};
 
 export default NavBar;

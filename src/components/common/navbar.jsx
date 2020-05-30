@@ -14,7 +14,7 @@ const NavBar = () => {
         data-toggle="collapse"
         data-target="#navbarNavAltMarkup"
         aria-controls="navbarNavAltMarkup"
-        aria-exopanded="false"
+        aria-expanded="false"
         aria-label="Toggle navigation"
       />
       <div className="navbar-nav">
@@ -26,6 +26,9 @@ const NavBar = () => {
         </NavLink>
         <NavLink className="nav-link nav-item" to="/rentals">
           Rentals
+        </NavLink>
+        <NavLink className="nav-link nav-item" to="/login">
+          Login
         </NavLink>
       </div>
     </nav>

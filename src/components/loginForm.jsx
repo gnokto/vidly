@@ -3,10 +3,26 @@ import React, { Component } from "react";
 import Input from "./common/input";
 
 class LoginForm extends Component {
-  state = { account: { username: "", password: "" } };
+  state = { account: { username: "", password: "" }, errors: {} };
+
+  validate = () => {
+    const errors = {};
+
+    const { account } = this.state;
+    if (account.username.trim() === "")
+      errors.username = "Username is required";
+    if (account.password.trim() === "")
+      errors.password = "Passoword is required";
+
+    return Object.keys(errors).length === 0 ? null : errors;
+  };
 
   handleSubmit = (e) => {
     e.preventDefault();
+
+    const errors = this.validate();
+    this.setState({ errors: errors || {} });
+    if (errors) return;
 
     console.log("submitted");
   };
@@ -17,7 +33,7 @@ class LoginForm extends Component {
     this.setState({ account });
   };
   render() {
-    const { account } = this.state;
+    const { account, errors } = this.state;
     return (
       <div>
         <h1>Login Form</h1>
@@ -28,6 +44,7 @@ class LoginForm extends Component {
             label="Username"
             value={account.username}
             onChange={this.handleChange}
+            error={errors.username}
           />
           <Input
             autoFocus
@@ -35,6 +52,7 @@ class LoginForm extends Component {
             label="Password"
             value={account.password}
             onChange={this.handleChange}
+            error={errors.password}
           />
           <button className="btn btn-primary">Login</button>
         </form>

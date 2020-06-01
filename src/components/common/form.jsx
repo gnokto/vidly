@@ -1,5 +1,7 @@
-import { Component } from "react";
+import React, { Component } from "react";
 import Joi from "joi-browser";
+
+import Input from "../common/input";
 
 class Form extends Component {
   state = { data: {}, errors: {} };
@@ -45,6 +47,28 @@ class Form extends Component {
 
     this.setState({ data, errors });
   };
+  renderButton(label) {
+    return (
+      <button disabled={this.validate()} className="btn btn-primary">
+        {label}
+      </button>
+    );
+  }
+
+  renderInput(name, label, autoFocus = false, type = "text") {
+    const { data, errors } = this.state;
+    return (
+      <Input
+        autoFocus={autoFocus}
+        type={type}
+        name={name}
+        label={label}
+        value={data[name]}
+        onChange={this.handleChange}
+        error={errors[name]}
+      />
+    );
+  }
 }
 
 export default Form;

@@ -17,10 +17,10 @@ const NavBar = () => {
         aria-expanded="false"
         aria-label="Toggle navigation"
       >
-        <span class="navbar-toggler-icon"></span>
+        <span className="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <div class="navbar-nav">
+      <div className="collapse navbar-collapse" id="navbarNav">
+        <div className="navbar-nav">
           <NavLink className="nav-link nav-item" to="/movies">
             Movies
           </NavLink>

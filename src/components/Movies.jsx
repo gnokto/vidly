@@ -45,7 +45,7 @@ class Movies extends Component {
       if (ex.response && ex.response.status === 404)
         toast.error("this movie has already been deleted");
 
-      // reset the changes on UI
+      // reset the changes on UI if deletion failed
       this.setState({ movies: originalMovies });
     }
   };

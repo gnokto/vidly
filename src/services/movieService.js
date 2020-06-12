@@ -1,8 +1,5 @@
 import http from "./httpService";
-
-const config = {
-  apiBaseEndpoint: "http://localhost:3900/api",
-};
+import config from "../config.json";
 
 export function getMovies() {
   return http.get(config.apiBaseEndpoint + "/movies");

@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import _ from "lodash";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
-import { getMovies } from "../services/fakeMovieService";
-import { getGenres } from "../services/fakeGenreService";
+import { getMovies, deleteMovie } from "../services/movieService";
+import { getGenres } from "../services/genreService";
 import MoviesTable from "./moviesTable";
 import Pagination from "./common/pagination";
 import { paginate } from "./common/utils/paginate";
@@ -22,14 +23,31 @@ class Movies extends Component {
   };
 
   // TODO componentDidMount is getting deprecated - use hooks
-  componentDidMount() {
-    const genres = [{ name: "All Genres", _id: "" }, ...getGenres()];
-    this.setState({ movies: getMovies(), genres });
+  async componentDidMount() {
+    const { data } = await getGenres();
+    const genres = [{ name: "All Genres", _id: "" }, ...data];
+
+    const { data: movies } = await getMovies();
+    this.setState({ movies, genres });
   }
 
-  handleDelete = (movie) => {
-    const movies = this.state.movies.filter((m) => m._id !== movie._id);
+  handleDelete = async (movie) => {
+    const originalMovies = this.state.movies;
+
+    // optimistic deletion - for fast UI deletion
+    const movies = originalMovies.filter((m) => m._id !== movie._id);
     this.setState({ movies: movies });
+
+    try {
+      console.log(movie._id);
+      await deleteMovie(movie._id);
+    } catch (ex) {
+      if (ex.response && ex.response.status === 404)
+        toast.error("this movie has already been deleted");
+
+      // reset the changes on UI
+      this.setState({ movies: originalMovies });
+    }
   };
 
   handleLikeToggle = (movie) => {
